@@ -1,9 +1,10 @@
-/* styles.css */
+
 
 body {
     font-family: Arial, sans-serif;
-    background: url('Volkswagen Virtus review.jpg') no-repeat center center fixed;
+    background-image: url('FORZA MOTORS-4.png');
     background-size: cover;
+    background-color: #ffffff;
     overflow: hidden; /* Prevents content from showing outside the body */
     display: flex;
     justify-content: center;
@@ -22,22 +23,26 @@ body {
 }
 
 .login-box h2 {
-    color: #ffffff;
+    color: #000000;
     margin-bottom: 30px;
 }
 
 .textbox {
-    position: relative;
+    display:flex; /* Enable flexbox for the container */
+    justify-content: center; /* Center elements horizontally */
+    align-items: center; /* Center elements vertically (optional) */
+    position: center;
     margin-bottom: 20px;
 }
 
 .textbox input {
-    width: 100%;
+    width: 300px;;
+    align-items:center;
     padding: 10px;
     border: none;
     border-bottom: 2px solid #ffffff;
-    background: transparent;
-    color: #fffdfd;
+    background-color: #f2f2f2; 
+    color: #333; 
     transition: border-color 0.3s ease;
 }
 
@@ -50,7 +55,7 @@ body {
     width: 100%;
     padding: 10px;
     border: none;
-    background: linear-gradient(to right, #43e97b, #38f9d7);
+    background: #000000;
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
@@ -60,7 +65,13 @@ body {
 }
 
 .btn:hover {
-    background-color: #38f9d7;
+    background-color: #535050;
+}
+ h2 {
+    color: #000000;
+    margin-bottom: 6%;
+    margin-right: 6%;
+    text-align:center;
 }
 
 .register-link {
@@ -103,3 +114,20 @@ body {
     background: #666;
     color: #fff;
 }
+
+    .forgot-password {
+        text-align: center;
+        margin-top: 15px;
+        color: #666; /* Inherit color from original CSS */
+      }
+      
+      .forgot-password a {
+        color:  #6a11cb; /* Change link color to blue */
+        text-decoration: none;
+      }
+      
+      .forgot-password a:hover {
+        text-decoration: underline;
+      }
+    
+      
