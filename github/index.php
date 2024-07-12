@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <title>Login Page</title>
+</head>
+<body>
+    <div class="login">
+        <?php
+        session_start(); // Start the session
+
+        // Initialize variables to hold error messages
+        $error = "";
+        $login_message = "";
+
+        // Database connection parameters
+        $servername = "localhost";
+        $username_db = "root";
+        $password_db = "";
+        $database = "forza motors"; // Adjusted to match the database name format
+
+        // Establish a database connection
+        $conn = new mysqli($servername, $username_db, $password_db, $database);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Retrieve form data
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+
+            $stmt = $conn->prepare("SELECT * FROM users_data WHERE username = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows === 1) {
+                $row = $result->fetch_assoc();
+                if (password_verify($password, $row['password'])) { // Assuming the database column is 'password'
+                    // Check the role
+                    if ($row['role'] == 2) {
+                        echo "<script>alert('User login successful.');</script>";
+                    } elseif ($row['role'] == 1) {
+                        echo "<script>alert('Admin login successful.');</script>";
+                    }
+                    $_SESSION['username'] = $username; // Set session variable
+                    // Redirect or handle the logged-in user/admin here if needed
+                } else {
+                    // Invalid password
+                    echo "<script>alert('Invalid password');</script>";
+                }
+            } else {
+                // User not found
+                echo "<script>alert('Invalid username');</script>";
+            }
+        }
+
+        // Close connection
+        $conn->close();
+        ?>
+        <img src="assets/img/login-bg.png" alt="login image" class="login__img">
+
+        <form action="" method="POST" class="login__form">
+            <h1 class="login__title">Login</h1>
+
+            <?php
+            if (!empty($error)) {
+                echo "<p class='login__error'>$error</p>";
+            }
+            if (!empty($login_message)) {
+                echo "<p class='login__message'>$login_message</p>";
+            }
+            ?>
+
+            <div class="login__content">
+                <div class="login__box">
+                    <i class="ri-user-3-line login__icon"></i>
+
+                    <div class="login__box-input">
+                        <input type="text" required class="login__input" name="username" placeholder="Username">
+                        <label for="login-email" class="login__label">Username</label>
+                    </div>
+                </div>
+
+                <div class="login__box">
+                    <i class="ri-lock-2-line login__icon"></i>
+
+                    <div class="login__box-input">
+                        <input type="password" required class="login__input" name="password" placeholder="Password">
+                        <label for="login-pass" class="login__label">Password</label>
+                        <i class="ri-eye-off-line login__eye" id="login-eye"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login__check">
+                <div class="login__check-group">
+                    <input type="checkbox" class="login__check-input" id="login-check">
+                    <label for="login-check" class="login__check-label">Remember me</label>
+                </div>
+
+                <a href="#" class="login__forgot">Forgot Password?</a>
+            </div>
+            
+
+            <button type="submit" class="login__button">Login</button>
+
+
+            <p class="login__register">
+                Don't have an account? <a href="register.php">Register</a>
+            </p>
+        </form>
+    </div>
+
+   
+   
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
